@@ -11,7 +11,7 @@
 		ds_settlement_fee_charged int8,
 		updated_ds_settlement_fee int8,
 		"difference" int8
-	)
+	);
 	```
 3. Update the data of merchant Id and payment id in data.go file according to the following example
 	```
@@ -28,6 +28,11 @@
 4. Run `go run .` in terminal
 
 5. Data is updated in settlement_details table and inserted details in logs table
+
+6. For Droping logs table after the work is done write the following query in postgres/tableplus
+	```
+	DROP TABLE logs;
+	```
 
 
 # Conditions
