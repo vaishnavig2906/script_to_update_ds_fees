@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/durianpay/dpay-common/db"
 	"github.com/jmoiron/sqlx"
@@ -34,9 +35,9 @@ const (
 		where id = $1
 		RETURNING id;`
 
-	insertIntoLogsTable = `Insert Into Logs
-	(payment_id, merchant_id, payment_ds_ref_id, ds_settlement_fee_charged, updated_ds_settlement_fee, "difference")
-	Values ($1, $2, $3, $4, 385000, $5)
+	insertIntoLogsTable = `Insert Into settlement_logs
+	(payment_id, merchant_id, payment_ds_ref_id, ds_settlement_fee_charged, updated_ds_settlement_fee, "difference", created_at)
+	Values ($1, $2, $3, $4, 385000, $5, $6)
 	Returning id`
 )
 
@@ -91,7 +92,7 @@ func UpdateDsFees(ctx context.Context, db *sqlx.DB, dbItem []items, merchantID s
 
 		difference := int(item.DsSettlementFees/100) - 3850
 
-		err = db.GetContext(ctx, &ID1, insertIntoLogsTable, paymentID, merchantID, item.DsPaymentRefID, item.DsSettlementFees, difference)
+		err = db.GetContext(ctx, &ID1, insertIntoLogsTable, paymentID, merchantID, item.DsPaymentRefID, item.DsSettlementFees, difference, time.Now())
 		if err != nil {
 			fmt.Println("error inserting into logs table", item.ID, "error", err.Error())
 			continue
