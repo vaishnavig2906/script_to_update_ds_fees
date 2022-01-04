@@ -1,18 +1,8 @@
 # Steps
 1. Change the env variables according to your db configuration in .env file
 
-2. Create table logs in postgres/tableplus by writing the following query 
-	```
-	Create Table logs(
-		id BIGSERIAL PRIMARY KEY,
-		payment_id VARCHAR(255),
-		merchant_id VARCHAR(255),
-		payment_ds_ref_id VARCHAR(255),
-		ds_settlement_fee_charged int8,
-		updated_ds_settlement_fee int8,
-		"difference" int8
-	);
-	```
+2. Make sure the table "settlement_logs" is added in the database 
+
 3. Update the data of merchant Id and payment id in data.go file according to the following example
 	```
 	Example := 
@@ -27,12 +17,7 @@
 	```
 4. Run `go run .` in terminal
 
-5. Data is updated in settlement_details table and inserted details in logs table
-
-6. For Droping logs table after the work is done write the following query in postgres/tableplus
-	```
-	DROP TABLE logs;
-	```
+5. Data is updated in "settlement_details" table and inserted details in "settlement_logs" table
 
 
 # Conditions
